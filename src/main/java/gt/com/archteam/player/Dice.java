@@ -1,4 +1,4 @@
-package gt.com.archteam.mockito;
+package gt.com.archteam.player;
 
 import java.util.Random;
 
