@@ -1,13 +1,14 @@
 package gt.com.archteam.movies.service;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.*;
+import static org.junit.Assert.assertThrows;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -38,16 +39,34 @@ public class MovieServiceTest {
     @Test
     public void return_movies_by_genre() {
         Collection<Movie> movies = movieService.findMoviesByGenre(Genre.COMEDY);
-        assertThat(getMovieIds(movies), CoreMatchers.is(Arrays.asList(3, 6)));
+        assertThat(getMovieIds(movies), is(Arrays.asList(3, 6)));
     }
 
     @Test
     public void return_movies_by_duration() {
         Collection<Movie> movies = movieService.findMoviesByLength(119);
-        assertThat(getMovieIds(movies), CoreMatchers.is(Arrays.asList(2, 3, 4, 5, 6)));
+        assertThat(getMovieIds(movies), is(Arrays.asList(2, 3, 4, 5, 6)));
     }
 
     private List<Integer> getMovieIds(Collection<Movie> movies) {
         return movies.stream().map(Movie::getId).collect(Collectors.toList());
+    }
+
+    @Test
+    public void return_movies_by_template() {
+        assertThat(getMovieIds(movieService.findMoviesByTemplate(new Movie(null, 150, Genre.THRILLER, "Director 2"))),
+                is(Arrays.asList(2)));
+        assertThat(getMovieIds(movieService.findMoviesByTemplate(new Movie(null, 150, null, "Director 3"))),
+                is(Arrays.asList(3)));
+        assertThat(getMovieIds(movieService.findMoviesByTemplate(new Movie(null, 150, Genre.ACTION, null))),
+                is(Arrays.asList(7)));
+        assertThat(getMovieIds(movieService.findMoviesByTemplate(new Movie("Meme", 120, null, null))),
+                is(Arrays.asList(2)));
+    }
+
+    @Test
+    public void throw_exception_when_duration_is_negative() {
+        assertThrows(null, IllegalArgumentException.class,
+                () -> movieService.findMoviesByTemplate(new Movie(null, -1, null, null)));
     }
 }

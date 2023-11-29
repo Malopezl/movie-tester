@@ -4,15 +4,15 @@ public class Movie {
 
     private Integer id;
     private String name;
-    private int minutes;
+    private Integer minutes;
     private Genre genre;
     private String director;
 
-    public Movie(String name, int minutes, Genre genre, String director) {
+    public Movie(String name, Integer minutes, Genre genre, String director) {
         this(null, name, minutes, genre, director);
     }
 
-    public Movie(Integer id, String name, int minutes, Genre genre, String director) {
+    public Movie(Integer id, String name, Integer minutes, Genre genre, String director) {
         this.id = id;
         this.name = name;
         this.minutes = minutes;
@@ -28,7 +28,7 @@ public class Movie {
         return name;
     }
 
-    public int getMinutes() {
+    public Integer getMinutes() {
         return minutes;
     }
 
@@ -46,7 +46,7 @@ public class Movie {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + minutes;
+        result = prime * result + ((minutes == null) ? 0 : minutes.hashCode());
         result = prime * result + ((genre == null) ? 0 : genre.hashCode());
         result = prime * result + ((director == null) ? 0 : director.hashCode());
         return result;
@@ -71,7 +71,10 @@ public class Movie {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (minutes != other.minutes)
+        if (minutes == null) {
+            if (other.minutes != null)
+                return false;
+        } else if (!minutes.equals(other.minutes))
             return false;
         if (genre != other.genre)
             return false;
