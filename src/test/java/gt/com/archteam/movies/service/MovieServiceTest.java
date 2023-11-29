@@ -24,13 +24,13 @@ public class MovieServiceTest {
         MovieRepository movieRepository = Mockito.mock(MovieRepository.class);
         Mockito.when(movieRepository.findAll()).thenReturn(
                 Arrays.asList(
-                        new Movie(1, "Dark Knight", 152, Genre.ACTION),
-                        new Movie(2, "Memento", 113, Genre.THRILLER),
-                        new Movie(3, "There's Something About Marty", 119, Genre.COMEDY),
-                        new Movie(4, "Super 8", 112, Genre.THRILLER),
-                        new Movie(5, "Scream", 111, Genre.HORROR),
-                        new Movie(6, "Home Alone", 103, Genre.COMEDY),
-                        new Movie(7, "Matrix", 136, Genre.ACTION)));
+                        new Movie(1, "Dark Knight", 152, Genre.ACTION, "Director 1"),
+                        new Movie(2, "Memento", 113, Genre.THRILLER, "Director 2"),
+                        new Movie(3, "There's Something About Marty", 119, Genre.COMEDY, "Director 3"),
+                        new Movie(4, "Super 8", 112, Genre.THRILLER, "Director 4"),
+                        new Movie(5, "Scream", 111, Genre.HORROR, "Director 5"),
+                        new Movie(6, "Home Alone", 103, Genre.COMEDY, "Director 6"),
+                        new Movie(7, "Matrix", 136, Genre.ACTION, "Director 7")));
 
         movieService = new MovieService(movieRepository);
     }

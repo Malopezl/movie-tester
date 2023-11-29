@@ -1,6 +1,7 @@
 package gt.com.archteam.movies.data;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,8 +18,7 @@ public class MovieRepositoryJdbc implements MovieRepository {
 
     @Override
     public Movie findById(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return jdbcTemplate.queryForObject("SELECT * FROM movies WHERE id = ?", movieMapper, id);
     }
 
     @Override
@@ -28,14 +28,20 @@ public class MovieRepositoryJdbc implements MovieRepository {
 
     @Override
     public void saveOrUpdate(Movie movie) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveOrUpdate'");
+        jdbcTemplate.update("INSERT INTO movies(name, minutes, genre, director) VALUES (?, ?, ?, ?)", movie.getName(),
+                movie.getMinutes(), movie.getGenre().toString(), movie.getDirector());
     }
 
     private static RowMapper<Movie> movieMapper = (rs, rowNum) -> new Movie(
             rs.getInt("id"),
             rs.getString("name"),
             rs.getInt("minutes"),
-            Genre.valueOf(rs.getString("genre")));
+            Genre.valueOf(rs.getString("genre")),
+            rs.getString("director"));
+
+    public Collection<Movie> findByName(String movieName) {
+        return this.findAll().stream().filter(movie -> movie.getName().toLowerCase().contains(movieName.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 
 }

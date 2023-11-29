@@ -6,16 +6,18 @@ public class Movie {
     private String name;
     private int minutes;
     private Genre genre;
+    private String director;
 
-    public Movie(String name, int minutes, Genre genre) {
-        this(null, name, minutes, genre);
+    public Movie(String name, int minutes, Genre genre, String director) {
+        this(null, name, minutes, genre, director);
     }
 
-    public Movie(Integer id, String name, int minutes, Genre genre) {
+    public Movie(Integer id, String name, int minutes, Genre genre, String director) {
         this.id = id;
         this.name = name;
         this.minutes = minutes;
         this.genre = genre;
+        this.director = director;
     }
 
     public Integer getId() {
@@ -34,6 +36,10 @@ public class Movie {
         return genre;
     }
 
+    public String getDirector() {
+        return director;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -42,6 +48,7 @@ public class Movie {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + minutes;
         result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+        result = prime * result + ((director == null) ? 0 : director.hashCode());
         return result;
     }
 
@@ -67,6 +74,11 @@ public class Movie {
         if (minutes != other.minutes)
             return false;
         if (genre != other.genre)
+            return false;
+        if (director == null) {
+            if (other.director != null)
+                return false;
+        } else if (!director.equals(other.director))
             return false;
         return true;
     }
